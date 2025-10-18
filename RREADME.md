@@ -3,11 +3,11 @@ ESP32 IoT Temperature and Humidity Monitor
 Spreadsheet:
 https://docs.google.com/spreadsheets/d/1a80hFn54QJw-CYo6R5B9NgiRK81CjMmhgsQGgQXwtp4/edit?gid=1167663846#gid=1167663846
 
-This is an IoT project that uses an ESP32 microcontroller to monitor ambient temperature and humidity with a DHT11 sensor. The collected data is displayed on an OLED screen, made accessible through a local web page, and periodically logged to a Google Sheet for later analysis.
+This is an IoT project that uses an ESP32 microcontroller to monitor ambient temperature and humidity with a DHT22 sensor. The collected data is displayed on an OLED screen, made accessible through a local web page, and periodically logged to a Google Sheet for later analysis.
 
 🌟 Features
 
-Real-Time Monitoring: Reads temperature and humidity data from a DHT11 sensor.
+Real-Time Monitoring: Reads temperature and humidity data from a DHT22 sensor.
 
 Local Display: Shows the current readings on a compact OLED display.
 
@@ -21,7 +21,7 @@ Relay Control: Includes basic code to control a relay (functionality can be expa
 
 ESP32 Development Board
 
-DHT11 Temperature and Humidity Sensor
+DHT22 Temperature and Humidity Sensor
 
 I2C OLED Display (128x32, SSD1306)
 
