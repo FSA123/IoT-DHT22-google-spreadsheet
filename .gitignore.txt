@@ -1,0 +1,7 @@
+*.o *.a *.d
+*.gch *.d
+*-dbus-introspection.h
+build/ .pio/ .vscode/
+*.bin *.elf *.hex
+.DS_Store *.tmp *~*.bak
+IoTproject_TempAndHumSensor/config.h
