@@ -1,6 +1,6 @@
 /**
  * @file Google Apps Script for logging data from ESP32 to a Google Sheet.
- * @author Your Name
+ * @author Stanculescu Filip
  * @version 1.0
  *
  * This script creates a web app that listens for GET requests.
