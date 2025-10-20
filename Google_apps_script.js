@@ -9,7 +9,7 @@
  */
 
 // The sheet name where data will be logged.
-var SHEET_NAME = "Sheet1";
+var SHEET_NAME = "IoT project - Temp&Hum logs";
 
 var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
 var sheet = spreadsheet.getSheetByName(SHEET_NAME);
