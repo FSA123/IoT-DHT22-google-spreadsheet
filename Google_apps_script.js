@@ -3,9 +3,6 @@
  * @author Stanculescu Filip
  * @version 1.0
  *
- * This script creates a web app that listens for GET requests.
- * When a request is received with 'temperature' and 'humidity' parameters,
- * it appends a new row to the active spreadsheet with a timestamp and the data.
  */
 
 // The sheet name where data will be logged.
@@ -17,11 +14,6 @@ var sheet = spreadsheet.getSheetByName(SHEET_NAME);
 /**
  * Handles HTTP GET requests.
  * This function is the entry point for the Web App.
- *
- * @param {Object} e - The event parameter containing the request details.
- * e.parameter.temperature - The temperature value.
- * e.parameter.humidity - The humidity value.
- * @return {ContentService.TextOutput} - A success or error message.
  */
 function doGet(e) {
   try {
