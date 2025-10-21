@@ -1,53 +1,35 @@
 /**
- * @file IoTproject_TempAndHumSensor.ino
- * @author Stanculescu Filip
- * @brief An IoT project to monitor temperature and humidity using an ESP32 and DHT22 sensor.
+ * An IoT project to monitor temperature and humidity using an ESP32 and DHT22 sensor.
  * Data is displayed on an OLED screen, served on a local web page, and logged
  * to a Google Sheet.
- * @version 1.0
- * @date 2025-10-18
- *
- * @copyright Copyright (c) 2025
- *
  */
 
-// --- DEPENDENCIES ---
 #include <WiFi.h>
 #include <Wire.h>
 #include "DHT.h"
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <HTTPClient.h>
-
-// --- CONFIGURATION ---
-// IMPORTANT: Add your WiFi credentials and Google Script URL in the "config.h" file.
 #include "config.h"
 
-// --- CONSTANTS ---
-// Pin Definitions
 #define DHT_PIN 4
 #define RELAY_PIN 13
 #define OLED_RESET_PIN -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 
-// Sensor & Display Configuration
 #define DHT_TYPE DHT22
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 32
 
-// Timing (in milliseconds)
 #define SENSOR_READ_INTERVAL 60000 // 60 seconds between readings
 #define OLED_DISPLAY_DURATION 2000 // Show each value for 2 seconds
 
-// --- GLOBAL OBJECTS ---
 DHT dht(DHT_PIN, DHT_TYPE);
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET_PIN);
 WiFiServer server(80);
 
-// --- GLOBAL VARIABLES ---
 float temperature_c; // Temperature in Celsius
 float humidity;      // Relative humidity
 
-// --- FUNCTION PROTOTYPES ---
 void connectToWiFi();
 void readSensorData();
 void updateOledDisplay();
@@ -55,7 +37,6 @@ void logDataToGoogleSheets();
 void handleWebServer();
 void setupDisplay();
 
-// --- SETUP ---
 void setup() {
     Serial.begin(115200);
 
@@ -68,7 +49,6 @@ void setup() {
     server.begin();
 }
 
-// --- MAIN LOOP ---
 void loop() {
     readSensorData();
     updateOledDisplay();
@@ -79,11 +59,6 @@ void loop() {
     delay(SENSOR_READ_INTERVAL);
 }
 
-// --- FUNCTION DEFINITIONS ---
-
-/**
- * @brief Initializes and clears the OLED display.
- */
 void setupDisplay() {
     if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
         Serial.println(F("SSD1306 allocation failed"));
@@ -98,9 +73,6 @@ void setupDisplay() {
     delay(1000);
 }
 
-/**
- * @brief Connects the ESP32 to the configured WiFi network.
- */
 void connectToWiFi() {
     Serial.print("Connecting to WiFi network: ");
     Serial.println(WIFI_SSID);
@@ -127,9 +99,6 @@ void connectToWiFi() {
     delay(2000);
 }
 
-/**
- * @brief Reads temperature and humidity from the DHT sensor.
- */
 void readSensorData() {
     temperature_c = dht.readTemperature();
     humidity = dht.readHumidity();
@@ -146,11 +115,7 @@ void readSensorData() {
     Serial.println("%");
 }
 
-/**
- * @brief Displays temperature and humidity on the OLED screen.
- */
 void updateOledDisplay() {
-    // Display Temperature
     display.clearDisplay();
     display.setCursor(0, 0);
     display.print("Temp: ");
@@ -159,7 +124,6 @@ void updateOledDisplay() {
     display.display();
     delay(OLED_DISPLAY_DURATION);
 
-    // Display Humidity
     display.clearDisplay();
     display.setCursor(0, 0);
     display.print("Hum: ");
@@ -170,7 +134,7 @@ void updateOledDisplay() {
 }
 
 /**
- * @brief Sends sensor data to a Google Sheet via a GET request.
+ *  Sends sensor data to a Google Sheet via a GET request.
  */
 void logDataToGoogleSheets() {
     if (WiFi.status() == WL_CONNECTED) {
@@ -197,7 +161,7 @@ void logDataToGoogleSheets() {
 }
 
 /**
- * @brief Handles incoming HTTP clients and serves a simple HTML page.
+ *  Handles incoming HTTP clients and serves a simple HTML page.
  */
 void handleWebServer() {
     WiFiClient client = server.available();
