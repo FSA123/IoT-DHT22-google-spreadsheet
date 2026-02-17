@@ -29,6 +29,9 @@ WiFiServer server(80);
 
 float temperature_c; // Temperature in Celsius
 float humidity;      // Relative humidity
+unsigned long lastSensorReadTime = 0;
+unsigned long lastOledUpdateTime = 0;
+bool showTemperature = true;
 
 void connectToWiFi();
 void readSensorData();
@@ -50,13 +53,20 @@ void setup() {
 }
 
 void loop() {
-    readSensorData();
-    updateOledDisplay();
-    logDataToGoogleSheets();
-    handleWebServer(); // Handle incoming web clients
+    unsigned long currentMillis = millis();
 
-    Serial.println("Cycle complete. Waiting for next interval...");
-    delay(SENSOR_READ_INTERVAL);
+    // Read sensor data and log to Google Sheets at regular intervals
+    if (lastSensorReadTime == 0 || currentMillis - lastSensorReadTime >= SENSOR_READ_INTERVAL) {
+        lastSensorReadTime = currentMillis;
+        if (lastSensorReadTime == 0) lastSensorReadTime = 1;
+
+        readSensorData();
+        logDataToGoogleSheets();
+        Serial.println("Cycle complete. Waiting for next interval...");
+    }
+
+    updateOledDisplay();
+    handleWebServer(); // Handle incoming web clients
 }
 
 void setupDisplay() {
@@ -116,21 +126,25 @@ void readSensorData() {
 }
 
 void updateOledDisplay() {
-    display.clearDisplay();
-    display.setCursor(0, 0);
-    display.print("Temp: ");
-    display.print(temperature_c);
-    display.print(" C");
-    display.display();
-    delay(OLED_DISPLAY_DURATION);
+    unsigned long currentMillis = millis();
 
-    display.clearDisplay();
-    display.setCursor(0, 0);
-    display.print("Hum: ");
-    display.print(humidity);
-    display.print(" %");
-    display.display();
-    delay(OLED_DISPLAY_DURATION);
+    if (currentMillis - lastOledUpdateTime >= OLED_DISPLAY_DURATION) {
+        lastOledUpdateTime = currentMillis;
+
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        if (showTemperature) {
+            display.print("Temp: ");
+            display.print(temperature_c);
+            display.print(" C");
+        } else {
+            display.print("Hum: ");
+            display.print(humidity);
+            display.print(" %");
+        }
+        display.display();
+        showTemperature = !showTemperature;
+    }
 }
 
 /**
