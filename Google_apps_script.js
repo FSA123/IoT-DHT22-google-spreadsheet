@@ -27,8 +27,19 @@ function doGet(e) {
     var temperature = e.parameter.temperature;
     var humidity = e.parameter.humidity;
 
+    // Validate that temperature and humidity are provided and are valid finite numbers to prevent Formula Injection.
+    if (temperature === undefined || humidity === undefined ||
+        temperature === "" || humidity === "" ||
+        isNaN(Number(temperature)) || !isFinite(Number(temperature)) ||
+        isNaN(Number(humidity)) || !isFinite(Number(humidity))) {
+      return ContentService.createTextOutput("Error: Invalid or missing numeric data.").setMimeType(ContentService.MimeType.TEXT);
+    }
+
+    var tempNum = Number(temperature);
+    var humNum = Number(humidity);
+
     // Append the new data as a row in the sheet.
-    sheet.appendRow([timestamp, temperature, humidity]);
+    sheet.appendRow([timestamp, tempNum, humNum]);
 
     // Return a success message.
     return ContentService.createTextOutput("Success: Data logged successfully.").setMimeType(ContentService.MimeType.TEXT);
