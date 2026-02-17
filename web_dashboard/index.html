@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature & Humidity Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>IoT Environment Monitor</h1>
+        <div id="status">Last Updated: <span id="last-updated">Just now</span></div>
+    </header>
+
+    <main>
+        <!-- Current Readings Section -->
+        <section class="readings">
+            <div class="card temp">
+                <h2>Temperature</h2>
+                <div class="value" id="current-temp">--°C</div>
+            </div>
+            <div class="card hum">
+                <h2>Humidity</h2>
+                <div class="value" id="current-hum">--%</div>
+            </div>
+        </section>
+
+        <!-- Chart Section -->
+        <section class="chart-container">
+            <div class="chart-header">
+                <h2>History</h2>
+                <div class="time-controls">
+                    <button class="time-btn" data-range="6h">6h</button>
+                    <button class="time-btn active" data-range="24h">24h</button>
+                    <button class="time-btn" data-range="3d">3d</button>
+                    <button class="time-btn" data-range="1w">1 Week</button>
+                </div>
+            </div>
+            <div class="canvas-wrapper">
+                <canvas id="envChart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Dashboard for ESP32 IoT Project</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
